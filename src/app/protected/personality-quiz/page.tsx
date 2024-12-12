@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from 'react';
 import PersonalityQuiz from '@/components/features/personality/PersonalityQuiz';
+import { PersonalityAnswers } from '@/components/features/personality/PersonalityQuiz';
 
 export default function PersonalityQuizPage() {
-  const handleSubmit = (answers) => {
+  const handleSubmit = (answers: PersonalityAnswers) => {
     // Handle quiz submission logic here
     console.log('Quiz answers:', answers);
     // You can add API call or further processing
