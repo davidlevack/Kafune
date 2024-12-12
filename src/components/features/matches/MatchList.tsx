@@ -1,3 +1,4 @@
+// src/components/features/matches/MatchList.tsx
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -20,10 +21,26 @@ const MatchList = () => {
       name: "Sarah Johnson",
       age: 28,
       location: "New York, NY",
-      imageUrl: "/placeholder-profile.jpg",
+      imageUrl: "/api/placeholder/400/320",  // Using placeholder API
       bio: "Love hiking and outdoor adventures"
     },
-    // ... other matches
+    // Add a few more matches for testing
+    {
+      id: 2,
+      name: "Michael Smith",
+      age: 30,
+      location: "Los Angeles, CA",
+      imageUrl: "/api/placeholder/400/320",
+      bio: "Music lover and coffee enthusiast"
+    },
+    {
+      id: 3,
+      name: "Emma Williams",
+      age: 26,
+      location: "Chicago, IL",
+      imageUrl: "/api/placeholder/400/320",
+      bio: "Travel photographer and foodie"
+    }
   ];
 
   return (
@@ -32,12 +49,13 @@ const MatchList = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {matches.map((match) => (
           <Card key={match.id} className="overflow-hidden">
-            <div className="relative h-48 w-full">
+            <div className="relative h-48 w-full bg-gray-100">
               <Image
                 src={match.imageUrl}
                 alt={match.name}
                 fill
                 className="object-cover"
+                unoptimized // Add this for placeholder images
               />
             </div>
             

@@ -1,14 +1,13 @@
-// components/auth/AuthForm.tsx
 "use client";
 
-import React, { useState, FormEvent } from 'react';
-import { useAuth } from '@/contexts/AuthContext'; // Add this
-import { useRouter } from 'next/navigation'; // Add this
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import React, { useState, FormEvent } from "react";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface FormData {
   email: string;
@@ -18,17 +17,21 @@ interface FormData {
   confirmPassword?: string;
 }
 
-const AuthForm = () => {
-  const { signIn, signUp } = useAuth(); // Add this
-  const router = useRouter(); // Add this
+interface AuthFormProps {
+  defaultTab?: "signin" | "signup";
+}
+
+const AuthForm = ({ defaultTab = "signin" }: AuthFormProps) => {
+  const { signIn, signUp } = useAuth();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
   const [formData, setFormData] = useState<FormData>({
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    confirmPassword: ''
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    confirmPassword: ""
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,13 +45,13 @@ const AuthForm = () => {
   const handleSignIn = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
+    setError("");
     
     try {
-      await signIn(formData.email, formData.password); // Change this line
-      router.push('/profile'); // Add this line
+      await signIn(formData.email, formData.password);
+      router.push("/protected/profile");
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Sign in failed');
+      setError(err instanceof Error ? err.message : "Sign in failed");
     } finally {
       setIsLoading(false);
     }
@@ -57,10 +60,10 @@ const AuthForm = () => {
   const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
+    setError("");
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       setIsLoading(false);
       return;
     }
@@ -69,10 +72,10 @@ const AuthForm = () => {
       await signUp(formData.email, formData.password, {
         firstName: formData.firstName,
         lastName: formData.lastName
-      }); // Change this line
-      router.push('/profile'); // Add this line
+      });
+      router.push("/protected/profile");
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Sign up failed');
+      setError(err instanceof Error ? err.message : "Sign up failed");
     } finally {
       setIsLoading(false);
     }
@@ -81,7 +84,7 @@ const AuthForm = () => {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <Card className="w-full max-w-md p-6">
-        <Tabs defaultValue="signin" className="space-y-6">
+        <Tabs defaultValue={defaultTab} className="space-y-6">
           <TabsList className="grid grid-cols-2">
             <TabsTrigger value="signin">Sign In</TabsTrigger>
             <TabsTrigger value="signup">Sign Up</TabsTrigger>
