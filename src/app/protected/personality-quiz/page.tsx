@@ -1,6 +1,6 @@
 'use client';
 
-import { PersonalityQuiz } from '@/components/features/personality/PersonalityQuiz';
+import PersonalityQuiz from '@/components/features/personality/PersonalityQuiz';
 
 export default function PersonalityQuizPage() {
   return (
